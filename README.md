@@ -30,6 +30,7 @@
 | 192.168.0.188 | monitor | monitor | 
 
 [Mô hình các node](https://drive.google.com/file/d/1lOnaO0WrTvPQIZ2Fn4rRJNmQgQ9r7-pO/view?usp=sharing)
+
 🚀 Hệ thống được thiết kế với khả năng dự phòng toàn diện cho PostgreSQL.
 Khi primary gặp sự cố, Patroni sẽ tự động promote replica lên thành primary mới. Replica còn lại được dùng chuyên biệt cho việc backup lên MinIO và giám sát hệ điều hành, PostgreSQL, Patroni và MinIO.
 
@@ -150,7 +151,7 @@ Tiếp theo kiểm tra leader(primary) và status
   ETCDCTL_API=3 etcdctl --endpoints=http://192.168.0.181:2379 endpoint health
 
 ```
-<a href="https://ibb.co/V4mJMGw"><img src="https://i.ibb.co/vnYVLWX/1.png"></a>
+<img src="https://i.ibb.co/vnYVLWX/1.png">
 
 #### Configure postgres2 (replica1)
 
@@ -232,7 +233,7 @@ Kiểm tra ai là leader bên `postgres1`, nếu ai có `IS LEADER = true` thì 
 ```
 ETCDCTL_API=3 etcdctl --endpoints=http://192.168.0.181:2379,http://192.168.0.182:2379,http://192.168.0.183:2379 endpoint status --write-out=table
 ```
-<a href="https://ibb.co/whgBcw9t"><img src="https://i.ibb.co/DfWzr8xd/2.png" alt="1"></a>
+<img src="https://i.ibb.co/DfWzr8xd/2.png" alt="1">
 Nếu leader sai không đúng với node thì chuyển `24ac94b43c79eb69` này là id của member cần lên leader
 ```
 ETCDCTL_API=3 etcdctl --endpoints=http://192.168.0.182:2379 move-leader 24ac94b43c79eb69
@@ -356,14 +357,15 @@ Tiếp theo kiểm tra patroni cluster
 ```
   patronictl -c /etc/patroni/config.yml list $SCOPE
 ```
-<a href="https://imgbb.com/"><img src="https://i.ibb.co/W4J8Wg6J/3.png" alt="3"></a>
+<img src="https://i.ibb.co/W4J8Wg6J/3.png" alt="3">
 
 Tiếp theo kiểm tra replica của postgres
 ```
   sudo psql -U postgres
   SELECT * FROM pg_replication_slots;
 ```
-<a href="https://ibb.co/RTHM75V0"><img src="https://i.ibb.co/YBjKbrqk/4.png" alt="4"></a>
+<img src="https://i.ibb.co/YBjKbrqk/4.png" alt="4">
+
 <a name="keepalived"></a>
 ### 3. Cấu hình keepalived
 
@@ -456,7 +458,9 @@ vrrp_instance VI_WRITE {
 ### 1. Phân vùng ổ đĩa
 ##### Thiết lập các cài đặt trên 4 node
 - cTrước tiên tạo các ổ đĩa ảo cho các máy ảo
-<a href="https://ibb.co/0pnz1kYn"><img src="https://i.ibb.co/NgFGfXWF/5.png" alt="5"></a>
+
+<img src="https://i.ibb.co/NgFGfXWF/5.png" alt="5">
+
 - Tạo folder chung để lưu trữ của minio
 ```
   sudo mkdir -p /mnt/data
@@ -544,7 +548,7 @@ Sau đó kiểm tra
 ```
   mc admin info myminio
 ```
-<a href="https://imgbb.com/"><img src="https://i.ibb.co/BH9RNsvh/6.png"></a>
+<img src="https://i.ibb.co/BH9RNsvh/6.png">
 
 <a name="configproxy"></a>
 ### 3. Cấu hình loadblance và keepalived
@@ -583,7 +587,7 @@ location / {
 }
 ```
 
-<a href="https://ibb.co/PGBr4gZv"><img src="https://i.ibb.co/XxmWptZr/7.png" alt="7"></a>
+<img src="https://i.ibb.co/XxmWptZr/7.png" alt="7">
 
 ##### Tiếp theo cấu hình keepalived trên `minio1`
 
@@ -873,7 +877,7 @@ Backup 2 giờ sáng hằng ngày
   0 2 * * * /usr/bin/python3 /home/pgreplica2/backup.py >> /var/log/pgbackup.log 2>&1
 ```
 
-<a href="https://ibb.co/7xdY8bqS"><img src="https://i.ibb.co/RGkvZ7qg/8.png" alt="8"></a>
+<img src="https://i.ibb.co/RGkvZ7qg/8.png" alt="8">
 
 
 <a name="monitor"></a>
@@ -1035,7 +1039,7 @@ Sau đó sửa file prometheus thêm các đường dẫn metrics từ các node
     static_configs:
       - targets: ['192.168.0.184:9000','192.168.0.185:9000','192.168.0.186:9000','192.168.0.187:9000']
 ```
-<a href="https://ibb.co/FqHDG6q3"><img src="https://i.ibb.co/4g1VBWgt/prometheus.png" alt="prometheus" ></a>
+<img src="https://i.ibb.co/4g1VBWgt/prometheus.png" alt="prometheus" >
 Sau khi thêm xong reload và khởi động lại prometheus
 
 ```
@@ -1053,11 +1057,11 @@ Vào grafana `http://192.168.0.188:3000/`
 Import `Data sources` từ prometheus rồi tìm dashboard theo từng exporter rồi import vào
 
 
-<a href="https://ibb.co/qMY9zqLG"><img src="https://i.ibb.co/kg20pbVn/minio.png" alt="minio"></a>
+<img src="https://i.ibb.co/kg20pbVn/minio.png" alt="minio">
 
-<a href="https://ibb.co/RkGHr4kq"><img src="https://i.ibb.co/YF4jnTFx/postgresql.png" alt="postgresql"></a>
+<img src="https://i.ibb.co/YF4jnTFx/postgresql.png" alt="postgresql">
 
-<a href="https://ibb.co/B5Yrd82s"><img src="https://i.ibb.co/Hf9x1mTg/ubuntu.png" alt="ubuntu" ></a>
+<img src="https://i.ibb.co/Hf9x1mTg/ubuntu.png" alt="ubuntu" >
 
 Tiếp theo thêm `Contact points` telegram để gửi alert về
 Telegram nó yêu cầu `BOT API Token và Chat ID`
@@ -1070,4 +1074,4 @@ Sau khi tạo xong thì nhắn bot vừa tạo spam để lấy chat id qua đư
 Rồi tạo alert để gửi cảnh báo về telegram
 
 
-<a href="https://ibb.co/4nkMTfMV"><img src="https://i.ibb.co/cSqtFvtr/notification.png" alt="notification" ></a>
+<img src="https://i.ibb.co/cSqtFvtr/notification.png" alt="notification" >
