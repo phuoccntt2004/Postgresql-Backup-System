@@ -234,6 +234,7 @@ Kiểm tra ai là leader bên `postgres1`, nếu ai có `IS LEADER = true` thì 
 ETCDCTL_API=3 etcdctl --endpoints=http://192.168.0.181:2379,http://192.168.0.182:2379,http://192.168.0.183:2379 endpoint status --write-out=table
 ```
 <img src="./assets/2.PNG" alt="1">
+
 Nếu leader sai không đúng với node thì chuyển `24ac94b43c79eb69` này là id của member cần lên leader
 ```
 ETCDCTL_API=3 etcdctl --endpoints=http://192.168.0.182:2379 move-leader 24ac94b43c79eb69
