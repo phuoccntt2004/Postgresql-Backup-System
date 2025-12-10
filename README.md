@@ -151,7 +151,7 @@ Tiếp theo kiểm tra leader(primary) và status
   ETCDCTL_API=3 etcdctl --endpoints=http://192.168.0.181:2379 endpoint health
 
 ```
-<img src="https://i.ibb.co/vnYVLWX/1.png">
+<img src="./assets/1.PNG">
 
 #### Configure postgres2 (replica1)
 
