@@ -15,6 +15,7 @@
 [II. Monitor](#monitor)
 - [1. Setup các export để lấy metrics từ HĐH, PosgreSQL, Patroni, Minio](#metrics)
 - [2. Cài grafana và prometheus](#grafanaprometheus)
+
 ===========================
 
 | Ip  | Node | username 
