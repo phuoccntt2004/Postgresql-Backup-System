@@ -233,7 +233,7 @@ Kiểm tra ai là leader bên `postgres1`, nếu ai có `IS LEADER = true` thì 
 ```
 ETCDCTL_API=3 etcdctl --endpoints=http://192.168.0.181:2379,http://192.168.0.182:2379,http://192.168.0.183:2379 endpoint status --write-out=table
 ```
-<img src="https://i.ibb.co/DfWzr8xd/2.png" alt="1">
+<img src="./assets/2.PNG" alt="1">
 Nếu leader sai không đúng với node thì chuyển `24ac94b43c79eb69` này là id của member cần lên leader
 ```
 ETCDCTL_API=3 etcdctl --endpoints=http://192.168.0.182:2379 move-leader 24ac94b43c79eb69
@@ -357,14 +357,14 @@ Tiếp theo kiểm tra patroni cluster
 ```
   patronictl -c /etc/patroni/config.yml list $SCOPE
 ```
-<img src="https://i.ibb.co/W4J8Wg6J/3.png" alt="3">
+<img src="./assets/3.PNG" alt="3">
 
 Tiếp theo kiểm tra replica của postgres
 ```
   sudo psql -U postgres
   SELECT * FROM pg_replication_slots;
 ```
-<img src="https://i.ibb.co/YBjKbrqk/4.png" alt="4">
+<img src="./assets/4.PNG" alt="4">
 
 <a name="keepalived"></a>
 ### 3. Cấu hình keepalived
@@ -459,7 +459,7 @@ vrrp_instance VI_WRITE {
 ##### Thiết lập các cài đặt trên 4 node
 - cTrước tiên tạo các ổ đĩa ảo cho các máy ảo
 
-<img src="https://i.ibb.co/NgFGfXWF/5.png" alt="5">
+<img src="./assets/5.PNG" alt="5">
 
 - Tạo folder chung để lưu trữ của minio
 ```
@@ -548,7 +548,7 @@ Sau đó kiểm tra
 ```
   mc admin info myminio
 ```
-<img src="https://i.ibb.co/BH9RNsvh/6.png">
+<img src="./assets/6.PNG">
 
 <a name="configproxy"></a>
 ### 3. Cấu hình loadblance và keepalived
@@ -587,7 +587,7 @@ location / {
 }
 ```
 
-<img src="https://i.ibb.co/XxmWptZr/7.png" alt="7">
+<img src="./assets/7.PNG" alt="7">
 
 ##### Tiếp theo cấu hình keepalived trên `minio1`
 
@@ -877,7 +877,7 @@ Backup 2 giờ sáng hằng ngày
   0 2 * * * /usr/bin/python3 /home/pgreplica2/backup.py >> /var/log/pgbackup.log 2>&1
 ```
 
-<img src="https://i.ibb.co/RGkvZ7qg/8.png" alt="8">
+<img src="./assets/8.PNG" alt="8">
 
 
 <a name="monitor"></a>
@@ -1039,7 +1039,7 @@ Sau đó sửa file prometheus thêm các đường dẫn metrics từ các node
     static_configs:
       - targets: ['192.168.0.184:9000','192.168.0.185:9000','192.168.0.186:9000','192.168.0.187:9000']
 ```
-<img src="https://i.ibb.co/4g1VBWgt/prometheus.png" alt="prometheus" >
+<img src="./assets/prometheus.PNG" alt="prometheus" >
 Sau khi thêm xong reload và khởi động lại prometheus
 
 ```
@@ -1057,11 +1057,11 @@ Vào grafana `http://192.168.0.188:3000/`
 Import `Data sources` từ prometheus rồi tìm dashboard theo từng exporter rồi import vào
 
 
-<img src="https://i.ibb.co/kg20pbVn/minio.png" alt="minio">
+<img src="./assets/minio.PNG" alt="minio">
 
-<img src="https://i.ibb.co/YF4jnTFx/postgresql.png" alt="postgresql">
+<img src="./assets/postgresql.PNG" alt="postgresql">
 
-<img src="https://i.ibb.co/Hf9x1mTg/ubuntu.png" alt="ubuntu" >
+<img src="./assets/ubuntu.PNG" alt="ubuntu" >
 
 Tiếp theo thêm `Contact points` telegram để gửi alert về
 Telegram nó yêu cầu `BOT API Token và Chat ID`
@@ -1074,4 +1074,4 @@ Sau khi tạo xong thì nhắn bot vừa tạo spam để lấy chat id qua đư
 Rồi tạo alert để gửi cảnh báo về telegram
 
 
-<img src="https://i.ibb.co/cSqtFvtr/notification.png" alt="notification" >
+<img src="./assets/notification.PNG" alt="notification" >
